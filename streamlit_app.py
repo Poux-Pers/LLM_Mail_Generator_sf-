@@ -10,7 +10,11 @@ from snowflake.snowpark import Session
 # ------------------------
 # ------ Main code -------
 # ------------------------
-session = Session.builder.config("connection_name", "myconnection").create()
+#session = Session.builder.config("connection_name", "myconnection").create()
+
+connection_parameters = st.secrets["snowflake"]
+
+session = Session.builder.configs(connection_parameters).create()
 
 def get_generated_email(
     email_content: str,
