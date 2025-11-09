@@ -1,27 +1,22 @@
-# App file
-
 # ----- Imports -----
 import streamlit as st
 import snowflake.connector
 import snowflake.cortex as Cortex
-
 from snowflake.snowpark import Session
 
 # ------------------------
 # ------ Main code -------
 # ------------------------
 
-try:
-    session.close()
-except:
-    pass
+# ✅ Crée et met en cache une seule session Snowpark
+@st.cache_resource
+def get_session():
+    connection_parameters = st.secrets["snowflake"]
+    return Session.builder.configs(connection_parameters).create()
 
-#session = Session.builder.config("connection_name", "myconnection").create()
+session = get_session()
 
-connection_parameters = st.secrets["snowflake"]
-
-session = Session.builder.configs(connection_parameters).create()
-
+# ✅ Fonction pour générer l'email via Cortex
 def get_generated_email(
     email_content: str,
     email_sender: str,
@@ -32,10 +27,6 @@ def get_generated_email(
     """
     Generate an email based on the inputs using Snowflake Cortex.
     """
-    
-    #*with snowflake.connector.connect(
-    #  connection_name="myconnection",
-    #) as conn:
     rephrased_content = Cortex.complete(
         model,
         f"""
@@ -48,6 +39,10 @@ def get_generated_email(
     )
     return rephrased_content
 
+
+# ------------------------
+# ------ Streamlit UI ----
+# ------------------------
 
 st.header("Email Generator APP :incoming_envelope:", anchor=False)
 st.write(
@@ -97,6 +92,8 @@ with st.expander("Email Input", expanded=True):
                     email_style,
                     selected_model,
                 )
+
+# ✅ Affichage du résultat
 if email_text != "":
     with st.expander("Email Output", expanded=True):
         st.write(email_text)
