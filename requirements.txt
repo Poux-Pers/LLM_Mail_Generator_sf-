@@ -1,3 +1,5 @@
 # Requirements
 streamlit
+pip
+snowflake
 snowflake.cortex
