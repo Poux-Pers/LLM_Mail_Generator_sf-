@@ -3,7 +3,7 @@
 # ----- Imports -----
 import streamlit as st
 
-from snowflake.ml.cortex import Complete
+import snowflake.ml.cortex as Cortex
 
 # ------------------------
 # ------ Main code -------
@@ -20,7 +20,7 @@ def get_generated_email(
     """
     Generate an email based on the inputs using Snowflake Cortex.
     """
-    rephrased_content = Complete(
+    rephrased_content = Cortex.complete(
         model,
         f"""
         Rewrite the text to be elaborate and polite, it must sound {email_style}.
