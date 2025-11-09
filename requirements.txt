@@ -1,4 +1,4 @@
 # Requirements
 streamlit
 snowflake
-snowflake.cortex = 0.3.0
+snowflake.cortex == 0.3.0
