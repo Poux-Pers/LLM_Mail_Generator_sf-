@@ -10,6 +10,12 @@ from snowflake.snowpark import Session
 # ------------------------
 # ------ Main code -------
 # ------------------------
+
+try:
+    session.close()
+except:
+    pass
+
 #session = Session.builder.config("connection_name", "myconnection").create()
 
 connection_parameters = st.secrets["snowflake"]
