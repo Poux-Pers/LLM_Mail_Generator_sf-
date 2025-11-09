@@ -3,7 +3,7 @@
 # ----- Imports -----
 import streamlit as st
 
-import snowflake.ml.cortex as Cortex
+import snowflake.cortex as Cortex
 
 # ------------------------
 # ------ Main code -------
