@@ -10,7 +10,7 @@ from snowflake.snowpark import Session
 # ------------------------
 # ------ Main code -------
 # ------------------------
-
+session = Session.builder.config("connection_name", "myconnection").create()
 
 def get_generated_email(
     email_content: str,
@@ -23,18 +23,20 @@ def get_generated_email(
     Generate an email based on the inputs using Snowflake Cortex.
     """
     
-    with snowflake.connector.connect(**st.secrets["snowflake"]) as conn :
-        rephrased_content = Cortex.complete(
-            model,
-            f"""
-            Rewrite the text to be elaborate and polite, it must sound {email_style}.
-            The sender of the email is: {email_sender}.
-            The recipient is: {email_recipient}.
-            Abbreviations need to be replaced.
-            The body of the email is: {email_content}
-            """,
-        )
-        return rephrased_content
+    #*with snowflake.connector.connect(
+    #  connection_name="myconnection",
+    #) as conn:
+    rephrased_content = Cortex.complete(
+        model,
+        f"""
+        Rewrite the text to be elaborate and polite, it must sound {email_style}.
+        The sender of the email is: {email_sender}.
+        The recipient is: {email_recipient}.
+        Abbreviations need to be replaced.
+        The body of the email is: {email_content}
+        """,
+    )
+    return rephrased_content
 
 
 st.header("Email Generator APP :incoming_envelope:", anchor=False)
