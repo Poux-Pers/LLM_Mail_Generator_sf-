@@ -22,9 +22,8 @@ def get_generated_email(
     """
     Generate an email based on the inputs using Snowflake Cortex.
     """
-    with snowflake.connector.connect(
-      connection_name="myconnection",
-    ) as conn:
+    
+    with snowflake.connector.connect(**st.secrets["snowflake"]) as conn :
         rephrased_content = Cortex.complete(
             model,
             f"""
